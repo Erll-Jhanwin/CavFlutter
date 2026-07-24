@@ -1,0 +1,345 @@
+import 'package:flutter/material.dart';
+
+import '../app/design_tokens.dart';
+import '../models/cav_item.dart';
+import '../widgets/cav_app_header.dart';
+import '../widgets/cav_image.dart';
+import '../widgets/cav_surface.dart';
+import '../widgets/responsive_content.dart';
+import '../widgets/section_header.dart';
+import 'summary_screen.dart';
+
+class OrderScreen extends StatefulWidget {
+  const OrderScreen({super.key, required this.product});
+
+  final CoffeeProduct product;
+
+  @override
+  State<OrderScreen> createState() => _OrderScreenState();
+}
+
+class _OrderScreenState extends State<OrderScreen> {
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _contactController = TextEditingController();
+  final _notesController = TextEditingController();
+
+  late DateTime _pickupDate = DateTime.now();
+  TimeOfDay _pickupTime = const TimeOfDay(hour: 10, minute: 30);
+  int _quantity = 1;
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _contactController.dispose();
+    _notesController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _pickDate() async {
+    final now = DateTime.now();
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _pickupDate,
+      firstDate: now,
+      lastDate: now.add(const Duration(days: 30)),
+    );
+    if (picked == null || !mounted) return;
+    setState(() => _pickupDate = picked);
+  }
+
+  Future<void> _pickTime() async {
+    final picked = await showTimePicker(
+      context: context,
+      initialTime: _pickupTime,
+    );
+    if (picked == null || !mounted) return;
+    setState(() => _pickupTime = picked);
+  }
+
+  void _submit() {
+    if (!_formKey.currentState!.validate()) return;
+
+    final summary = OrderSummary(
+      productName: widget.product.name,
+      customerName: _nameController.text.trim(),
+      contactNumber: _contactController.text.trim(),
+      pickupDate: _pickupDate,
+      pickupTime: _pickupTime,
+      quantity: _quantity,
+      notes: _notesController.text.trim(),
+      imageAsset: widget.product.imageAsset,
+    );
+
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => OrderSummaryScreen(summary: summary),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Scaffold(
+      appBar: CavAppHeader(
+        title: 'Sample Order',
+        subtitle: widget.product.name,
+      ),
+      body: SafeArea(
+        child: ResponsiveContent(
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              padding: const EdgeInsets.only(
+                top: CavSpacing.lg,
+                bottom: CavSpacing.xl,
+              ),
+              children: [
+                CavSurface(
+                  padding: const EdgeInsets.all(CavSpacing.sm),
+                  color: CavColors.accentSoft,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final wide = constraints.maxWidth >= 680;
+                      final details = Padding(
+                        padding: const EdgeInsets.all(CavSpacing.sm),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const Chip(label: Text('Cafe pickup')),
+                            const SizedBox(height: CavSpacing.sm),
+                            Text(
+                              widget.product.name,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.titleLarge,
+                            ),
+                            const SizedBox(height: CavSpacing.xs),
+                            Text(
+                              widget.product.price,
+                              style: theme.textTheme.labelLarge?.copyWith(
+                                color: theme.colorScheme.secondary,
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            const SizedBox(height: CavSpacing.sm),
+                            Text(
+                              widget.product.description,
+                              maxLines: wide ? 3 : 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: theme.textTheme.bodyMedium?.copyWith(
+                                color: theme.colorScheme.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+
+                      if (!wide) {
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CavImage(
+                              asset: widget.product.imageAsset,
+                              aspectRatio: 16 / 9,
+                            ),
+                            details,
+                          ],
+                        );
+                      }
+
+                      return Row(
+                        children: [
+                          SizedBox(
+                            width: 240,
+                            child: CavImage(
+                              asset: widget.product.imageAsset,
+                              aspectRatio: 4 / 3,
+                            ),
+                          ),
+                          const SizedBox(width: CavSpacing.sm),
+                          Expanded(child: details),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: CavSpacing.xl),
+                const SectionHeader(
+                  title: 'Order Details',
+                  subtitle: 'Set quantity, pickup time, and contact details.',
+                ),
+                const SizedBox(height: CavSpacing.md),
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    final twoColumns = constraints.maxWidth >= 680;
+                    final fieldWidth = twoColumns
+                        ? (constraints.maxWidth - CavSpacing.md) / 2
+                        : constraints.maxWidth;
+                    return Wrap(
+                      spacing: CavSpacing.md,
+                      runSpacing: CavSpacing.md,
+                      children: [
+                        SizedBox(
+                          width: fieldWidth,
+                          child: TextFormField(
+                            controller: _nameController,
+                            textInputAction: TextInputAction.next,
+                            decoration: const InputDecoration(
+                              labelText: 'Full name',
+                              prefixIcon: Icon(Icons.person_outline),
+                            ),
+                            validator: _required,
+                          ),
+                        ),
+                        SizedBox(
+                          width: fieldWidth,
+                          child: TextFormField(
+                            controller: _contactController,
+                            keyboardType: TextInputType.phone,
+                            textInputAction: TextInputAction.next,
+                            decoration: const InputDecoration(
+                              labelText: 'Contact number',
+                              prefixIcon: Icon(Icons.phone_outlined),
+                            ),
+                            validator: _required,
+                          ),
+                        ),
+                        SizedBox(
+                          width: fieldWidth,
+                          child: _StepperTile(
+                            value: _quantity,
+                            onChanged: (value) =>
+                                setState(() => _quantity = value),
+                          ),
+                        ),
+                        SizedBox(
+                          width: fieldWidth,
+                          child: _PickerTile(
+                            icon: Icons.calendar_month_outlined,
+                            label: 'Pickup date',
+                            value: _formatDate(_pickupDate),
+                            onTap: _pickDate,
+                          ),
+                        ),
+                        SizedBox(
+                          width: fieldWidth,
+                          child: _PickerTile(
+                            icon: Icons.schedule_outlined,
+                            label: 'Pickup time',
+                            value: _pickupTime.format(context),
+                            onTap: _pickTime,
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                const SizedBox(height: CavSpacing.md),
+                TextFormField(
+                  controller: _notesController,
+                  minLines: 3,
+                  maxLines: 5,
+                  decoration: const InputDecoration(
+                    labelText: 'Notes or requests',
+                    prefixIcon: Icon(Icons.notes_outlined),
+                  ),
+                ),
+                const SizedBox(height: CavSpacing.lg),
+                FilledButton.icon(
+                  onPressed: _submit,
+                  icon: const Icon(Icons.receipt_long_outlined),
+                  label: const Text('View order summary'),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  String? _required(String? value) {
+    if ((value ?? '').trim().isEmpty) return 'This field is required.';
+    return null;
+  }
+
+  String _formatDate(DateTime date) {
+    return '${date.month}/${date.day}/${date.year}';
+  }
+}
+
+class _StepperTile extends StatelessWidget {
+  const _StepperTile({required this.value, required this.onChanged});
+
+  final int value;
+  final ValueChanged<int> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return CavSurface(
+      color: CavColors.surface,
+      padding: const EdgeInsets.symmetric(
+        horizontal: CavSpacing.sm,
+        vertical: CavSpacing.xs,
+      ),
+      child: Row(
+        children: [
+          const Icon(Icons.format_list_numbered_outlined),
+          const SizedBox(width: 12),
+          const Expanded(child: Text('Quantity')),
+          IconButton(
+            tooltip: 'Decrease quantity',
+            onPressed: value > 1 ? () => onChanged(value - 1) : null,
+            icon: const Icon(Icons.remove_circle_outline),
+          ),
+          SizedBox(
+            width: 36,
+            child: Text(
+              '$value',
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+          ),
+          IconButton(
+            tooltip: 'Increase quantity',
+            onPressed: value < 12 ? () => onChanged(value + 1) : null,
+            icon: const Icon(Icons.add_circle_outline),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PickerTile extends StatelessWidget {
+  const _PickerTile({
+    required this.icon,
+    required this.label,
+    required this.value,
+    required this.onTap,
+  });
+
+  final IconData icon;
+  final String label;
+  final String value;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(CavRadii.control),
+      onTap: onTap,
+      child: InputDecorator(
+        decoration: InputDecoration(
+          labelText: label,
+          prefixIcon: Icon(icon),
+          suffixIcon: const Icon(Icons.edit_calendar_outlined),
+        ),
+        child: Text(value),
+      ),
+    );
+  }
+}
