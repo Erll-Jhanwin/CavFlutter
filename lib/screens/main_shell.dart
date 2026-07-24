@@ -8,17 +8,22 @@ import 'events_screen.dart';
 import 'home_screen.dart';
 import 'studio_screen.dart';
 
+/// Hosts the primary application destinations and bottom navigation.
 class MainShell extends StatefulWidget {
+  /// Creates the stateful destination shell.
   const MainShell({super.key});
 
+  /// Creates the state that tracks the selected destination.
   @override
   State<MainShell> createState() => _MainShellState();
 }
 
+/// Maintains the active page while preserving each page in an [IndexedStack].
 class _MainShellState extends State<MainShell> {
   int _selectedIndex = 0;
 
   late final List<Widget> _pages = [
+    // Keep destination state alive while switching navigation tabs.
     HomeScreen(onNavigate: _selectPage),
     const StudioScreen(),
     const EventsScreen(),
@@ -26,10 +31,12 @@ class _MainShellState extends State<MainShell> {
     const AboutScreen(),
   ];
 
+  /// Selects the destination at [index] and rebuilds the navigation shell.
   void _selectPage(int index) {
     setState(() => _selectedIndex = index);
   }
 
+  /// Builds the current destination and persistent bottom navigation bar.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +73,7 @@ class _MainShellState extends State<MainShell> {
               NavigationDestination(
                 icon: Icon(Icons.local_cafe_outlined),
                 selectedIcon: Icon(Icons.local_cafe),
-                label: 'Coffee',
+                label: 'Café',
               ),
               NavigationDestination(
                 icon: Icon(Icons.person_outline),

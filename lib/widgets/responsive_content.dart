@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../app/design_tokens.dart';
 
+/// Centers content within a maximum width and applies responsive page padding.
 class ResponsiveContent extends StatelessWidget {
+  /// Creates responsive content with an optional [maxWidth] and page inset.
   const ResponsiveContent({
     super.key,
     required this.child,
@@ -14,6 +16,7 @@ class ResponsiveContent extends StatelessWidget {
   final double maxWidth;
   final bool withPagePadding;
 
+  /// Builds the constrained layout using padding based on viewport width.
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.sizeOf(context);
@@ -25,6 +28,7 @@ class ResponsiveContent extends StatelessWidget {
 
     return LayoutBuilder(
       builder: (context, constraints) {
+        // Keep content centered while allowing narrow screens to use all space.
         return Align(
           alignment: Alignment.topCenter,
           child: ConstrainedBox(

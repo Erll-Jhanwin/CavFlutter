@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import '../app/design_tokens.dart';
 import 'cav_logo.dart';
 
+/// Provides the shared responsive app bar used by application screens.
 class CavAppHeader extends StatelessWidget implements PreferredSizeWidget {
+  /// Creates a header with optional subtitle, actions, logo, and primary CTA.
   const CavAppHeader({
     super.key,
     required this.title,
@@ -33,13 +35,16 @@ class CavAppHeader extends StatelessWidget implements PreferredSizeWidget {
   final bool showLogo;
   final bool automaticallyImplyLeading;
 
+  /// Returns the toolbar height, increasing it when a subtitle is present.
   @override
   Size get preferredSize => Size.fromHeight(subtitle == null ? 64 : 74);
 
+  /// Builds the responsive app bar and conditionally visible actions.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final width = MediaQuery.sizeOf(context).width;
+    // Use compact controls when the full action label would crowd the bar.
     final compact = width < 560;
     final hasPrimaryAction =
         primaryLabel != null && primaryIcon != null && onPrimaryPressed != null;
@@ -151,7 +156,9 @@ class CavAppHeader extends StatelessWidget implements PreferredSizeWidget {
   }
 }
 
+/// Renders a circular header action with an optional notification badge.
 class _HeaderIconAction extends StatelessWidget {
+  /// Creates a header action using [tooltip], [icon], and [onPressed].
   const _HeaderIconAction({
     required this.tooltip,
     required this.icon,
@@ -164,6 +171,7 @@ class _HeaderIconAction extends StatelessWidget {
   final VoidCallback onPressed;
   final int badgeCount;
 
+  /// Builds the action button and adds a compact count badge when needed.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

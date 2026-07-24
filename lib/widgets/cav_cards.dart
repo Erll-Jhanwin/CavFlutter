@@ -5,12 +5,15 @@ import '../models/cav_item.dart';
 import 'cav_image.dart';
 import 'cav_surface.dart';
 
+/// Renders a bookable package with its image, inclusions, and booking action.
 class PackageCard extends StatelessWidget {
+  /// Creates a package card that invokes [onBook] when selected.
   const PackageCard({super.key, required this.package, required this.onBook});
 
   final CavPackage package;
   final VoidCallback onBook;
 
+  /// Builds the package presentation and booking control.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -88,7 +91,11 @@ class PackageCard extends StatelessWidget {
                     child: FilledButton.icon(
                       onPressed: onBook,
                       icon: const Icon(Icons.calendar_month_outlined),
-                      label: const Text('Book package'),
+                      label: Text(
+                        package.category == CavCategory.studio
+                            ? 'Book session'
+                            : 'Book photo service',
+                      ),
                     ),
                   ),
                 ],
@@ -101,7 +108,9 @@ class PackageCard extends StatelessWidget {
   }
 }
 
+/// Renders a coffee product with tags and an order action.
 class CoffeeProductCard extends StatelessWidget {
+  /// Creates a product card that invokes [onOrder] when selected.
   const CoffeeProductCard({
     super.key,
     required this.product,
@@ -111,6 +120,7 @@ class CoffeeProductCard extends StatelessWidget {
   final CoffeeProduct product;
   final VoidCallback onOrder;
 
+  /// Builds the product presentation and order control.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -182,7 +192,7 @@ class CoffeeProductCard extends StatelessWidget {
                     child: FilledButton.icon(
                       onPressed: onOrder,
                       icon: const Icon(Icons.shopping_bag_outlined),
-                      label: const Text('Order sample'),
+                      label: const Text('Order for pickup'),
                     ),
                   ),
                 ],
@@ -195,11 +205,14 @@ class CoffeeProductCard extends StatelessWidget {
   }
 }
 
+/// Displays a gallery image with its title, caption, and category icon.
 class GalleryTile extends StatelessWidget {
+  /// Creates a gallery tile for [item].
   const GalleryTile({super.key, required this.item});
 
   final GalleryItem item;
 
+  /// Builds the image-backed gallery tile.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -254,11 +267,14 @@ class GalleryTile extends StatelessWidget {
   }
 }
 
+/// Applies a short entrance animation to card content.
 class _AnimatedCard extends StatelessWidget {
+  /// Creates an animated wrapper around [child].
   const _AnimatedCard({required this.child});
 
   final Widget child;
 
+  /// Builds the fading and translating card animation.
   @override
   Widget build(BuildContext context) {
     return TweenAnimationBuilder<double>(
@@ -279,7 +295,9 @@ class _AnimatedCard extends StatelessWidget {
   }
 }
 
+/// Displays an icon in a rounded bubble, optionally using an inverted style.
 class _IconBubble extends StatelessWidget {
+  /// Creates an icon bubble using [color] and the optional [inverted] palette.
   const _IconBubble({
     required this.icon,
     required this.color,
@@ -290,6 +308,7 @@ class _IconBubble extends StatelessWidget {
   final Color color;
   final bool inverted;
 
+  /// Builds the icon bubble with its selected color treatment.
   @override
   Widget build(BuildContext context) {
     return Container(

@@ -2,151 +2,265 @@ import 'package:flutter/material.dart';
 
 import '../models/cav_item.dart';
 
+/// Provides the static service, product, and gallery data used by the app.
 class CavRepository {
+  /// Prevents instantiation because all repository data is static.
   const CavRepository._();
 
   static const studioPackages = [
     CavPackage(
-      id: 'studio-portrait',
-      title: 'Portrait Session',
+      id: 'studio-solo',
+      title: 'Solo Package',
       category: CavCategory.studio,
-      price: 'From PHP 1,500',
-      description:
-          'A clean studio portrait session for solo, couple, or family photos.',
+      price: '₱1,000',
+      description: 'A focused studio session for up to 2 persons.',
       includes: [
-        '30-minute shoot',
-        '5 enhanced photos',
-        'Digital copies',
-        'Studio backdrop options',
+        '2 persons',
+        '15 minutes',
       ],
       icon: Icons.photo_camera_outlined,
-      imageAsset: 'assets/images/studio_portrait.jpg',
+      imageAsset: 'assets/PICS/business/Store.jpg',
     ),
     CavPackage(
-      id: 'studio-graduation',
-      title: 'Graduation Package',
+      id: 'studio-me-and-u',
+      title: 'Me & U Package',
       category: CavCategory.studio,
-      price: 'From PHP 2,800',
-      description:
-          'Graduation portraits with formal, creative, and family layouts.',
+      price: '₱1,000',
+      description: 'A two-person studio session for shared portraits.',
       includes: [
-        '1-hour shoot',
-        '10 enhanced photos',
-        'Toga and formal layouts',
-        'Print-ready files',
+        '2 persons',
+        '15 minutes',
       ],
-      icon: Icons.school_outlined,
-      imageAsset: 'assets/images/studio_graduation.jpg',
+      icon: Icons.favorite_border,
+      imageAsset: 'assets/PICS/couple/self shoot duo.jpg',
     ),
     CavPackage(
-      id: 'studio-product',
-      title: 'Product Shoot',
+      id: 'studio-me-and-my-friends',
+      title: 'Me & My Friends Package',
       category: CavCategory.studio,
-      price: 'From PHP 3,200',
-      description:
-          'Static product photography for menus, catalogs, and social pages.',
+      price: '₱1,000',
+      description: 'A group studio session for 3 to 5 persons.',
       includes: [
-        'Up to 10 products',
-        'Styled flat lays',
-        'Basic retouching',
-        'Web-ready exports',
+        '3–5 persons',
+        '15 minutes',
       ],
-      icon: Icons.inventory_2_outlined,
-      imageAsset: 'assets/images/studio_product.jpg',
+      icon: Icons.groups_outlined,
+      imageAsset: 'assets/PICS/friends/studio session friends.jpg',
+    ),
+    CavPackage(
+      id: 'studio-family',
+      title: 'Family Package',
+      category: CavCategory.studio,
+      price: '₱1,000',
+      description: 'A family studio session for 2 to 6 persons.',
+      includes: [
+        '2–6 persons',
+        '15 minutes',
+      ],
+      icon: Icons.family_restroom_outlined,
+      imageAsset: 'assets/PICS/family/studio session family.jpg',
+    ),
+    CavPackage(
+      id: 'studio-birthday',
+      title: 'Birthday Package',
+      category: CavCategory.studio,
+      price: '₱1,000',
+      description: 'A birthday studio session for 2 to 6 persons.',
+      includes: [
+        '2–6 persons',
+        '15 minutes',
+      ],
+      icon: Icons.celebration_outlined,
+      imageAsset: 'assets/PICS/birthday/studio session bday.jpg',
     ),
   ];
 
   static const eventPackages = [
     CavPackage(
-      id: 'event-birthday',
-      title: 'Birthday Coverage',
+      id: 'photo-service-booking',
+      title: 'Photo Service Booking',
       category: CavCategory.event,
-      price: 'From PHP 6,500',
+      price: 'Inquire for pricing',
       description:
-          'Photo coverage for birthdays, reunions, and intimate celebrations.',
+          'Book CAV photo coverage for events and outdoor photoshoots.',
       includes: [
-        '3-hour coverage',
-        'Edited event highlights',
-        'Online gallery',
-        'Same-week preview',
+        'Events',
+        'Outdoor photoshoots',
       ],
-      icon: Icons.celebration_outlined,
-      imageAsset: 'assets/images/event_birthday.jpg',
-    ),
-    CavPackage(
-      id: 'event-wedding',
-      title: 'Wedding Essentials',
-      category: CavCategory.event,
-      price: 'From PHP 18,000',
-      description:
-          'Documentary-style coverage for ceremony, portraits, and reception moments.',
-      includes: [
-        'Full event coverage',
-        'Lead photographer',
-        'Edited image set',
-        'Keepsake album option',
-      ],
-      icon: Icons.favorite_border,
-      imageAsset: 'assets/images/event_wedding.jpg',
-    ),
-    CavPackage(
-      id: 'event-corporate',
-      title: 'Corporate Event',
-      category: CavCategory.event,
-      price: 'From PHP 9,500',
-      description:
-          'Reliable coverage for launches, seminars, and company gatherings.',
-      includes: [
-        'Program documentation',
-        'Speaker photos',
-        'Group portraits',
-        'Fast digital delivery',
-      ],
-      icon: Icons.business_center_outlined,
-      imageAsset: 'assets/images/event_corporate.jpg',
+      icon: Icons.camera_alt_outlined,
+      imageAsset: 'assets/PICS/events/standard event package.jpg',
     ),
   ];
 
   static const coffeeProducts = [
     CoffeeProduct(
-      id: 'coffee-latte',
-      name: 'CAV Signature Latte',
-      price: 'PHP 145',
-      description:
-          'Smooth espresso with steamed milk and a balanced caramel finish.',
-      tags: ['Hot', 'Iced', 'Best seller'],
-      icon: Icons.local_cafe_outlined,
-      imageAsset: 'assets/images/coffee_latte.jpg',
-    ),
-    CoffeeProduct(
       id: 'coffee-americano',
-      name: 'Classic Americano',
-      price: 'PHP 110',
-      description:
-          'Clean espresso, warm water, and a crisp coffee-forward profile.',
-      tags: ['Hot', 'Iced'],
+      name: 'Americano',
+      category: CavMenuCategory.classics,
+      price: '₱70',
+      description: 'A classic café selection from the Classics menu.',
+      tags: ['Classics'],
+      icon: Icons.local_cafe_outlined,
+      imageAsset: 'assets/PICS/business/Store.jpg',
+    ),
+    CoffeeProduct(
+      id: 'coffee-cappuccino',
+      name: 'Cappuccino',
+      category: CavMenuCategory.classics,
+      price: '₱110',
+      description: 'A classic café selection from the Classics menu.',
+      tags: ['Classics'],
       icon: Icons.coffee_outlined,
-      imageAsset: 'assets/images/cafe_interior.jpg',
+      imageAsset: 'assets/PICS/business/Store.jpg',
     ),
     CoffeeProduct(
-      id: 'coffee-mocha',
-      name: 'Mocha Studio Blend',
-      price: 'PHP 155',
-      description: 'Espresso, cocoa, and milk for a richer coffee shop treat.',
-      tags: ['Chocolate', 'Iced option'],
+      id: 'coffee-spanish-latte',
+      name: 'Spanish Latte',
+      category: CavMenuCategory.classics,
+      price: '₱105',
+      description: 'A classic café selection from the Classics menu.',
+      tags: ['Classics'],
       icon: Icons.emoji_food_beverage_outlined,
-      imageAsset: 'assets/images/coffee_mocha.jpg',
+      imageAsset: 'assets/PICS/business/Store.jpg',
     ),
     CoffeeProduct(
-      id: 'coffee-croissant',
-      name: 'Butter Croissant',
-      price: 'PHP 95',
-      description: 'Flaky pastry served warm, ideal with any coffee order.',
-      tags: ['Pastry', 'Fresh daily'],
-      icon: Icons.bakery_dining_outlined,
-      imageAsset: 'assets/images/coffee_croissant.jpg',
+      id: 'coffee-caramel-macchiato',
+      name: 'Caramel Macchiato',
+      category: CavMenuCategory.classics,
+      price: '₱105',
+      description: 'A classic café selection from the Classics menu.',
+      tags: ['Classics'],
+      icon: Icons.local_cafe_outlined,
+      imageAsset: 'assets/PICS/business/Store.jpg',
+    ),
+    CoffeeProduct(
+      id: 'coffee-chocnut-latte',
+      name: 'Chocnut Latte',
+      category: CavMenuCategory.signatures,
+      price: '₱125',
+      description: 'A signature CAV café selection.',
+      tags: ['Signatures'],
+      icon: Icons.emoji_food_beverage_outlined,
+      imageAsset: 'assets/PICS/business/Store.jpg',
+    ),
+    CoffeeProduct(
+      id: 'coffee-triple-chocolate-latte',
+      name: 'Triple Chocolate Latte',
+      category: CavMenuCategory.signatures,
+      price: '₱140',
+      description: 'A signature CAV café selection.',
+      tags: ['Signatures'],
+      icon: Icons.emoji_food_beverage_outlined,
+      imageAsset: 'assets/PICS/business/Store.jpg',
+    ),
+    CoffeeProduct(
+      id: 'matcha-classic',
+      name: 'Classic Matcha',
+      category: CavMenuCategory.matcha,
+      price: '₱130',
+      description: 'A matcha favorite from the CAV café menu.',
+      tags: ['Matcha'],
+      icon: Icons.local_cafe_outlined,
+      imageAsset: 'assets/PICS/business/Store.jpg',
+    ),
+    CoffeeProduct(
+      id: 'matcha-dirty',
+      name: 'Dirty Matcha',
+      category: CavMenuCategory.matcha,
+      price: '₱145',
+      description: 'A matcha favorite from the CAV café menu.',
+      tags: ['Matcha'],
+      icon: Icons.local_cafe_outlined,
+      imageAsset: 'assets/PICS/business/Store.jpg',
+    ),
+    CoffeeProduct(
+      id: 'matcha-chocnut',
+      name: 'Chocnut Matcha',
+      category: CavMenuCategory.matcha,
+      price: '₱155',
+      description: 'A matcha favorite from the CAV café menu.',
+      tags: ['Matcha'],
+      icon: Icons.local_cafe_outlined,
+      imageAsset: 'assets/PICS/business/Store.jpg',
+    ),
+    CoffeeProduct(
+      id: 'matcha-strawberry',
+      name: 'Strawberry Matcha',
+      category: CavMenuCategory.matcha,
+      price: '₱145',
+      description: 'A matcha favorite from the CAV café menu.',
+      tags: ['Matcha'],
+      icon: Icons.local_cafe_outlined,
+      imageAsset: 'assets/PICS/business/Store.jpg',
+    ),
+    CoffeeProduct(
+      id: 'soda-sparkling-mango',
+      name: 'Sparkling Mango',
+      category: CavMenuCategory.soda,
+      price: '₱75',
+      description: 'A sparkling fruit soda from the CAV café menu.',
+      tags: ['Soda'],
+      icon: Icons.local_drink_outlined,
+      imageAsset: 'assets/PICS/business/Store.jpg',
+    ),
+    CoffeeProduct(
+      id: 'soda-sparkling-strawberry',
+      name: 'Sparkling Strawberry',
+      category: CavMenuCategory.soda,
+      price: '₱75',
+      description: 'A sparkling fruit soda from the CAV café menu.',
+      tags: ['Soda'],
+      icon: Icons.local_drink_outlined,
+      imageAsset: 'assets/PICS/business/Store.jpg',
+    ),
+    CoffeeProduct(
+      id: 'soda-sparkling-blueberry',
+      name: 'Sparkling Blueberry',
+      category: CavMenuCategory.soda,
+      price: '₱75',
+      description: 'A sparkling fruit soda from the CAV café menu.',
+      tags: ['Soda'],
+      icon: Icons.local_drink_outlined,
+      imageAsset: 'assets/PICS/business/Store.jpg',
+    ),
+    CoffeeProduct(
+      id: 'soda-sparkling-green-apple',
+      name: 'Sparkling Green Apple',
+      category: CavMenuCategory.soda,
+      price: '₱65',
+      description: 'A sparkling fruit soda from the CAV café menu.',
+      tags: ['Soda'],
+      icon: Icons.local_drink_outlined,
+      imageAsset: 'assets/PICS/business/Store.jpg',
     ),
   ];
+
+  static const contactDetails = CavContactDetails(
+    address: '028B M.P. Casanova Street, Purok 1, Tambo, Lipa City, Batangas',
+    email: 'cav.photostudio.cafe@gmail.com',
+    facebook: 'CAV Photo Studio & Cafe',
+    instagram: 'CAV Photo Studio Cafe',
+    tiktok: 'CAV Photo Studio and Cafe PH',
+  );
+
+  /// Returns menu products matching [query] and the optional [category].
+  static List<CoffeeProduct> filterCoffeeProducts({
+    String query = '',
+    CavMenuCategory? category,
+  }) {
+    final normalizedQuery = query.trim().toLowerCase();
+    return coffeeProducts.where((product) {
+      final matchesCategory = category == null || product.category == category;
+      final searchableText = [
+        product.name,
+        product.category.label,
+        ...product.tags,
+      ].join(' ').toLowerCase();
+      final matchesQuery =
+          normalizedQuery.isEmpty || searchableText.contains(normalizedQuery);
+      return matchesCategory && matchesQuery;
+    }).toList();
+  }
 
   static const galleryItems = [
     GalleryItem(
@@ -154,28 +268,28 @@ class CavRepository {
       caption: 'Clean lighting and polished personal portraits.',
       icon: Icons.person_outline,
       color: Color(0xFF176B5B),
-      imageAsset: 'assets/images/studio_portrait.jpg',
+      imageAsset: 'assets/PICS/business/Store.jpg',
     ),
     GalleryItem(
-      title: 'Graduation Sets',
-      caption: 'Formal and creative looks for milestone photos.',
-      icon: Icons.school_outlined,
+      title: 'Family Sessions',
+      caption: 'Studio portraits for families and groups.',
+      icon: Icons.family_restroom_outlined,
       color: Color(0xFF6E4C9A),
-      imageAsset: 'assets/images/studio_graduation.jpg',
+      imageAsset: 'assets/PICS/family/studio session family.jpg',
     ),
     GalleryItem(
       title: 'Event Highlights',
       caption: 'Celebration coverage for candid and key moments.',
       icon: Icons.event_available_outlined,
       color: Color(0xFFC05A2B),
-      imageAsset: 'assets/images/event_wedding.jpg',
+      imageAsset: 'assets/PICS/events/event.jpg',
     ),
     GalleryItem(
       title: 'Coffee Bar',
-      caption: 'Cafe drinks, pastries, and cozy table scenes.',
+      caption: 'Café drinks and a welcoming CAV storefront.',
       icon: Icons.local_cafe_outlined,
       color: Color(0xFF8B5E3C),
-      imageAsset: 'assets/images/cafe_interior.jpg',
+      imageAsset: 'assets/PICS/business/Store.jpg',
     ),
   ];
 }

@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 
 import '../app/design_tokens.dart';
+import '../data/cav_repository.dart';
 import '../widgets/cav_app_header.dart';
 import '../widgets/cav_image.dart';
 import '../widgets/cav_surface.dart';
 import '../widgets/responsive_content.dart';
 import '../widgets/section_header.dart';
 
+/// Presents CAV business details, address, email, and social contacts.
 class AboutScreen extends StatelessWidget {
+  /// Creates the profile and business-information screen.
   const AboutScreen({super.key});
 
+  /// Builds the profile introduction and responsive information tiles.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final contact = CavRepository.contactDetails;
     return Scaffold(
       appBar: const CavAppHeader(
         title: 'Profile',
@@ -42,7 +47,7 @@ class AboutScreen extends StatelessWidget {
                           borderRadius: BorderRadius.circular(CavRadii.pill),
                         ),
                         child: Text(
-                          'Sample City, Philippines',
+                          'Lipa City, Batangas',
                           style: theme.textTheme.labelMedium?.copyWith(
                             color: theme.colorScheme.primary,
                             fontWeight: FontWeight.w700,
@@ -51,7 +56,7 @@ class AboutScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: CavSpacing.sm),
                       Text(
-                        'CAV Photo Studio, Events, and Coffee',
+                        'CAV Photo Studio & Cafe',
                         style: theme.textTheme.titleLarge?.copyWith(
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0,
@@ -59,7 +64,7 @@ class AboutScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: CavSpacing.xs),
                       Text(
-                        'Portrait sessions, event coverage, and cafe pickups in one simple local experience.',
+                        'Studio sessions, photo service booking, and café drinks in one local experience.',
                         style: theme.textTheme.bodyMedium?.copyWith(
                           color: theme.colorScheme.onSurfaceVariant,
                         ),
@@ -75,7 +80,7 @@ class AboutScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const CavImage(
-                                asset: 'assets/images/cafe_interior.jpg',
+                                asset: 'assets/PICS/business/Store.jpg',
                                 aspectRatio: 16 / 10,
                               ),
                               Padding(
@@ -90,7 +95,7 @@ class AboutScreen extends StatelessWidget {
                               const SizedBox(
                                 width: 210,
                                 child: CavImage(
-                                  asset: 'assets/images/cafe_interior.jpg',
+                                  asset: 'assets/PICS/business/Store.jpg',
                                   aspectRatio: 4 / 3,
                                 ),
                               ),
@@ -109,7 +114,7 @@ class AboutScreen extends StatelessWidget {
               const SizedBox(height: CavSpacing.xl),
               const SectionHeader(
                 title: 'Business Information',
-                subtitle: 'Everything needed to reach the studio and cafe.',
+                subtitle: 'Official address, email, and social contacts.',
               ),
               const SizedBox(height: CavSpacing.md),
               LayoutBuilder(
@@ -118,26 +123,31 @@ class AboutScreen extends StatelessWidget {
                   final width = twoColumns
                       ? (constraints.maxWidth - CavSpacing.md) / 2
                       : constraints.maxWidth;
-                  const tiles = [
+                  final tiles = [
                     _InfoTile(
                       icon: Icons.location_on_outlined,
                       title: 'Address',
-                      value: 'CAV Studio and Cafe, Sample City, Philippines',
-                    ),
-                    _InfoTile(
-                      icon: Icons.schedule_outlined,
-                      title: 'Business Hours',
-                      value: 'Monday to Sunday, 9:00 AM - 8:00 PM',
-                    ),
-                    _InfoTile(
-                      icon: Icons.phone_outlined,
-                      title: 'Contact Number',
-                      value: '+63 900 000 0000',
+                      value: contact.address,
                     ),
                     _InfoTile(
                       icon: Icons.email_outlined,
                       title: 'Email',
-                      value: 'hello@cavstudio.example',
+                      value: contact.email,
+                    ),
+                    _InfoTile(
+                      icon: Icons.facebook,
+                      title: 'Facebook',
+                      value: contact.facebook,
+                    ),
+                    _InfoTile(
+                      icon: Icons.camera_alt_outlined,
+                      title: 'Instagram',
+                      value: contact.instagram,
+                    ),
+                    _InfoTile(
+                      icon: Icons.music_note_outlined,
+                      title: 'TikTok',
+                      value: contact.tiktok,
                     ),
                   ];
 
@@ -158,7 +168,9 @@ class AboutScreen extends StatelessWidget {
   }
 }
 
+/// Displays one labeled business-information item with an icon.
 class _InfoTile extends StatelessWidget {
+  /// Creates an information tile from its icon, title, and value.
   const _InfoTile({
     required this.icon,
     required this.title,
@@ -169,6 +181,7 @@ class _InfoTile extends StatelessWidget {
   final String title;
   final String value;
 
+  /// Builds the icon, label, and supporting value row.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

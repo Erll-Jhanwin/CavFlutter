@@ -59,6 +59,14 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/PICS/birthday/
+    - assets/PICS/business/
+    - assets/PICS/couple/
+    - assets/PICS/events/
+    - assets/PICS/family/
+    - assets/PICS/friends/
+    - assets/PICS/icon/
+    - assets/PICS/solo/
 
   fonts:
     - family: Poppins

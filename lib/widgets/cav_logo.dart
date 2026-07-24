@@ -2,11 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../app/design_tokens.dart';
 
+/// Displays the compact CAV brand mark at the requested [size].
 class CavLogo extends StatelessWidget {
+  /// Creates a logo with a default size suitable for cards and headers.
   const CavLogo({super.key, this.size = 72});
 
   final double size;
 
+  /// Builds the branded mark with responsive corner radius and shadow.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

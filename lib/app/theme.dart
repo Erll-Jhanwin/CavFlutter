@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'design_tokens.dart';
 
+/// Builds the Material theme used by the CAV application.
 class CavTheme {
+  /// Prevents instantiation of this static theme factory.
   const CavTheme._();
 
+  /// Returns the configured light theme and component styling.
   static ThemeData light() {
     const colorScheme = ColorScheme(
       brightness: Brightness.light,

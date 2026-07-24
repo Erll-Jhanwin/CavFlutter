@@ -7,20 +7,26 @@ import '../widgets/cav_logo.dart';
 import '../widgets/cav_surface.dart';
 import 'main_shell.dart';
 
+/// Displays the branded loading screen before entering the main shell.
 class SplashScreen extends StatefulWidget {
+  /// Creates the splash screen.
   const SplashScreen({super.key});
 
+  /// Creates the state responsible for the timed transition.
   @override
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
+/// Manages the splash timer and its cleanup during widget removal.
 class _SplashScreenState extends State<SplashScreen> {
   Timer? _timer;
 
+  /// Starts the delayed transition to the main application shell.
   @override
   void initState() {
     super.initState();
     _timer = Timer(const Duration(seconds: 2), () {
+      // Avoid navigation if the timer fires after the screen was removed.
       if (!mounted) return;
       Navigator.of(context).pushReplacement(
         MaterialPageRoute<void>(builder: (_) => const MainShell()),
@@ -28,12 +34,14 @@ class _SplashScreenState extends State<SplashScreen> {
     });
   }
 
+  /// Cancels the transition timer before disposing the state.
   @override
   void dispose() {
     _timer?.cancel();
     super.dispose();
   }
 
+  /// Builds the centered branded splash content and entrance animation.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -74,7 +82,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             ),
                             const SizedBox(height: CavSpacing.xs),
                             Text(
-                              'Photo studio, events, and coffee',
+                              'Photo studio, photo services, and café',
                               textAlign: TextAlign.center,
                               style: theme.textTheme.bodyLarge?.copyWith(
                                 color: theme.colorScheme.onSurfaceVariant,

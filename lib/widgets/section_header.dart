@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// Displays a section title with optional supporting text and action widget.
 class SectionHeader extends StatelessWidget {
+  /// Creates a section header with the required [title].
   const SectionHeader({
     super.key,
     required this.title,
@@ -12,6 +14,7 @@ class SectionHeader extends StatelessWidget {
   final String? subtitle;
   final Widget? action;
 
+  /// Builds the title block and optional trailing action.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

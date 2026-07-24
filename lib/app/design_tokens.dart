@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// Defines the shared color palette used throughout the application.
 class CavColors {
+  /// Prevents instantiation of this static token collection.
   const CavColors._();
 
   static const background = Color(0xFFFAF9F7);
@@ -20,7 +22,9 @@ class CavColors {
   static const slate = Color(0xFF354052);
 }
 
+/// Defines the shared spacing scale used for layout gaps and padding.
 class CavSpacing {
+  /// Prevents instantiation of this static token collection.
   const CavSpacing._();
 
   static const xs = 6.0;
@@ -31,7 +35,9 @@ class CavSpacing {
   static const xxl = 40.0;
 }
 
+/// Defines the shared corner-radius scale for images, cards, and controls.
 class CavRadii {
+  /// Prevents instantiation of this static token collection.
   const CavRadii._();
 
   static const image = 20.0;
@@ -41,9 +47,12 @@ class CavRadii {
   static const pill = 999.0;
 }
 
+/// Provides reusable shadow recipes for elevated surfaces.
 class CavShadows {
+  /// Prevents instantiation of this static token collection.
   const CavShadows._();
 
+  /// Returns a soft two-layer shadow using [color] as its tint.
   static List<BoxShadow> soft(Color color) {
     return [
       BoxShadow(
@@ -59,6 +68,7 @@ class CavShadows {
     ];
   }
 
+  /// Returns a single stronger shadow for visibly lifted content.
   static List<BoxShadow> lift(Color color) {
     return [
       BoxShadow(

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../app/design_tokens.dart';
 import '../models/cav_item.dart';
+import '../utils/form_validators.dart';
 import '../widgets/cav_app_header.dart';
 import '../widgets/cav_image.dart';
 import '../widgets/cav_surface.dart';
@@ -9,15 +11,19 @@ import '../widgets/responsive_content.dart';
 import '../widgets/section_header.dart';
 import 'summary_screen.dart';
 
+/// Collects customer details and a preferred time for a service package.
 class BookingScreen extends StatefulWidget {
+  /// Creates a booking form for [package].
   const BookingScreen({super.key, required this.package});
 
   final CavPackage package;
 
+  /// Creates the state that owns form controllers and selected slot values.
   @override
   State<BookingScreen> createState() => _BookingScreenState();
 }
 
+/// Manages booking input state, validation, and summary navigation.
 class _BookingScreenState extends State<BookingScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
@@ -28,6 +34,7 @@ class _BookingScreenState extends State<BookingScreen> {
   late DateTime _selectedDate = DateTime.now().add(const Duration(days: 1));
   TimeOfDay _selectedTime = const TimeOfDay(hour: 10, minute: 0);
 
+  /// Releases all text controllers owned by the booking form.
   @override
   void dispose() {
     _nameController.dispose();
@@ -37,6 +44,7 @@ class _BookingScreenState extends State<BookingScreen> {
     super.dispose();
   }
 
+  /// Opens a date picker constrained to today through the next year.
   Future<void> _pickDate() async {
     final now = DateTime.now();
     final picked = await showDatePicker(
@@ -49,6 +57,7 @@ class _BookingScreenState extends State<BookingScreen> {
     setState(() => _selectedDate = picked);
   }
 
+  /// Opens a time picker and stores the selected preferred time.
   Future<void> _pickTime() async {
     final picked = await showTimePicker(
       context: context,
@@ -58,7 +67,9 @@ class _BookingScreenState extends State<BookingScreen> {
     setState(() => _selectedTime = picked);
   }
 
+  /// Validates the form, creates a summary, and opens its confirmation screen.
   void _submit() {
+    // Do not construct or navigate to a summary until every required field passes.
     if (!_formKey.currentState!.validate()) return;
 
     final summary = BookingSummary(
@@ -79,12 +90,16 @@ class _BookingScreenState extends State<BookingScreen> {
     );
   }
 
+  /// Builds the package preview, booking fields, and submit action.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final isStudioSession = widget.package.category == CavCategory.studio;
     return Scaffold(
       appBar: CavAppHeader(
-        title: 'Sample Booking',
+        title: isStudioSession
+            ? 'Studio Session Booking'
+            : 'Photo Service Booking',
         subtitle: widget.package.title,
       ),
       body: SafeArea(
@@ -109,7 +124,13 @@ class _BookingScreenState extends State<BookingScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Chip(label: Text(widget.package.category.name)),
+                            Chip(
+                              label: Text(
+                                isStudioSession
+                                    ? 'Studio session'
+                                    : 'Photo service',
+                              ),
+                            ),
                             const SizedBox(height: CavSpacing.sm),
                             Text(
                               widget.package.title,
@@ -192,20 +213,25 @@ class _BookingScreenState extends State<BookingScreen> {
                               labelText: 'Full name',
                               prefixIcon: Icon(Icons.person_outline),
                             ),
-                            validator: _required,
+                            validator: CavValidators.required,
                           ),
                         ),
                         SizedBox(
                           width: fieldWidth,
                           child: TextFormField(
                             controller: _contactController,
-                            keyboardType: TextInputType.phone,
+                            keyboardType: TextInputType.number,
+                            maxLength: 11,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(11),
+                            ],
                             textInputAction: TextInputAction.next,
                             decoration: const InputDecoration(
                               labelText: 'Contact number',
                               prefixIcon: Icon(Icons.phone_outlined),
                             ),
-                            validator: _required,
+                            validator: CavValidators.cellphone,
                           ),
                         ),
                         SizedBox(
@@ -218,16 +244,7 @@ class _BookingScreenState extends State<BookingScreen> {
                               labelText: 'Email address',
                               prefixIcon: Icon(Icons.email_outlined),
                             ),
-                            validator: (value) {
-                              final text = value?.trim() ?? '';
-                              if (text.isEmpty) {
-                                return 'This field is required.';
-                              }
-                              if (!text.contains('@')) {
-                                return 'Enter a valid email address.';
-                              }
-                              return null;
-                            },
+                            validator: CavValidators.email,
                           ),
                         ),
                         SizedBox(
@@ -276,17 +293,15 @@ class _BookingScreenState extends State<BookingScreen> {
     );
   }
 
-  String? _required(String? value) {
-    if ((value ?? '').trim().isEmpty) return 'This field is required.';
-    return null;
-  }
-
+  /// Formats [date] as a compact month/day/year string for display.
   String _formatDate(DateTime date) {
     return '${date.month}/${date.day}/${date.year}';
   }
 }
 
+/// Renders a tappable date or time value using an input-like appearance.
 class _PickerTile extends StatelessWidget {
+  /// Creates a picker tile with its icon, label, displayed [value], and action.
   const _PickerTile({
     required this.icon,
     required this.label,
@@ -299,6 +314,7 @@ class _PickerTile extends StatelessWidget {
   final String value;
   final VoidCallback onTap;
 
+  /// Builds the input decorator and forwards taps to [onTap].
   @override
   Widget build(BuildContext context) {
     return InkWell(

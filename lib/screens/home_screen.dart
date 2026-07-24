@@ -11,17 +11,20 @@ import '../widgets/responsive_content.dart';
 import '../widgets/section_header.dart';
 import 'gallery_screen.dart';
 
+/// Builds the CAV landing page and routes requests to primary destinations.
 class HomeScreen extends StatelessWidget {
+  /// Creates the home screen with a navigation callback for destination indexes.
   const HomeScreen({super.key, required this.onNavigate});
 
   final ValueChanged<int> onNavigate;
 
+  /// Builds the responsive home dashboard and gallery preview.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CavAppHeader(
         title: 'CAV',
-        subtitle: 'Photo studio, events, and coffee',
+        subtitle: 'Photo studio, photo services, and café',
         showLogo: true,
         automaticallyImplyLeading: false,
         primaryLabel: 'Book studio',
@@ -66,7 +69,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(height: CavSpacing.xl),
               SectionHeader(
                 title: 'Gallery Preview',
-                subtitle: 'Recent looks across studio, event, and cafe work.',
+                subtitle: 'Recent looks across studio, event, and café work.',
                 action: TextButton.icon(
                   onPressed: () {
                     Navigator.of(context).push(
@@ -96,15 +99,19 @@ class HomeScreen extends StatelessWidget {
   }
 }
 
+/// Arranges the hero, service, metric, and feature cards for each breakpoint.
 class _BentoDashboard extends StatelessWidget {
+  /// Creates a dashboard that forwards destination changes to [onNavigate].
   const _BentoDashboard({required this.onNavigate});
 
   final ValueChanged<int> onNavigate;
 
+  /// Builds a stacked mobile layout or a two-column desktop composition.
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
+        // The dashboard changes composition rather than merely shrinking cards.
         final wide = constraints.maxWidth >= 860;
 
         if (!wide) {
@@ -118,9 +125,9 @@ class _BentoDashboard extends StatelessWidget {
               const SizedBox(height: CavSpacing.md),
               _FeatureBentoCard(
                 title: 'Coffee Pickup',
-                subtitle: 'Reserve drinks and pastries before you arrive.',
+                subtitle: 'Browse 14 café drinks before you arrive.',
                 icon: Icons.local_cafe_outlined,
-                imageAsset: 'assets/images/coffee_latte.jpg',
+                imageAsset: 'assets/PICS/business/Store.jpg',
                 onTap: () => onNavigate(3),
               ),
             ],
@@ -145,9 +152,9 @@ class _BentoDashboard extends StatelessWidget {
                       const SizedBox(height: CavSpacing.md),
                       _FeatureBentoCard(
                         title: 'Coffee Pickup',
-                        subtitle: 'Reserve drinks and pastries before you arrive.',
+                        subtitle: 'Browse 14 café drinks before you arrive.',
                         icon: Icons.local_cafe_outlined,
-                        imageAsset: 'assets/images/coffee_latte.jpg',
+                        imageAsset: 'assets/PICS/business/Store.jpg',
                         onTap: () => onNavigate(3),
                       ),
                     ],
@@ -164,17 +171,21 @@ class _BentoDashboard extends StatelessWidget {
   }
 }
 
+/// Displays the primary studio call to action over a responsive hero image.
 class _HeroBentoCard extends StatelessWidget {
+  /// Creates a hero card that uses [onNavigate] for its actions.
   const _HeroBentoCard({required this.onNavigate});
 
   final ValueChanged<int> onNavigate;
 
+  /// Builds the hero card with breakpoint-specific typography and spacing.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return LayoutBuilder(
       builder: (context, constraints) {
         final width = constraints.maxWidth;
+        // Tune hero text and height independently for phone and tablet widths.
         final compact = width < 420;
         final narrow = width < 560;
         final padding = compact ? CavSpacing.lg : CavSpacing.xl;
@@ -203,11 +214,14 @@ class _HeroBentoCard extends StatelessWidget {
                 children: [
                   Positioned.fill(
                     child: Image.asset(
-                      'assets/images/studio_portrait.jpg',
+                      'assets/PICS/business/Store.jpg',
                       fit: BoxFit.cover,
                       alignment: narrow
                           ? Alignment.center
                           : Alignment.centerLeft,
+                      errorBuilder: (context, error, stackTrace) {
+                        return const CavImageFallback();
+                      },
                     ),
                   ),
                   const Positioned.fill(child: CavImageOverlay(opacity: 0.58)),
@@ -220,7 +234,7 @@ class _HeroBentoCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           _Pill(
-                            label: 'Studio / Events / Coffee',
+                            label: 'Studio / Photo Services / Café',
                             color: Colors.white.withValues(alpha: 0.18),
                             foreground: Colors.white,
                           ),
@@ -230,7 +244,7 @@ class _HeroBentoCard extends StatelessWidget {
                           ConstrainedBox(
                             constraints: const BoxConstraints(maxWidth: 620),
                             child: Text(
-                              'Book photo sessions, event coverage, and cafe pickups.',
+                              'Book studio sessions, photo services, and café pickups.',
                               maxLines: narrow ? 4 : 3,
                               overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.displaySmall?.copyWith(
@@ -244,7 +258,7 @@ class _HeroBentoCard extends StatelessWidget {
                           ConstrainedBox(
                             constraints: const BoxConstraints(maxWidth: 560),
                             child: Text(
-                              'A polished sample experience for planning CAV services with fast browsing and simple forms.',
+                              'Choose a 15-minute studio session, request photo coverage, or browse the café menu.',
                               maxLines: narrow ? 4 : 3,
                               overflow: TextOverflow.ellipsis,
                               style: theme.textTheme.bodyMedium?.copyWith(
@@ -267,7 +281,7 @@ class _HeroBentoCard extends StatelessWidget {
                               TextButton.icon(
                                 onPressed: () => onNavigate(3),
                                 icon: const Icon(Icons.local_cafe_outlined),
-                                label: const Text('Coffee menu'),
+                                label: const Text('Café menu'),
                                 style: TextButton.styleFrom(
                                   foregroundColor: Colors.white,
                                   backgroundColor: Colors.white.withValues(
@@ -291,41 +305,44 @@ class _HeroBentoCard extends StatelessWidget {
   }
 }
 
+/// Creates the service shortcuts displayed below or beside the hero card.
 class _ServiceBentoGrid extends StatelessWidget {
+  /// Creates a service grid that forwards tile taps to [onNavigate].
   const _ServiceBentoGrid({required this.onNavigate});
 
   final ValueChanged<int> onNavigate;
 
+  /// Builds service definitions and maps them to interactive tiles.
   @override
   Widget build(BuildContext context) {
     final services = [
       _BentoAction(
         title: 'Photo Studio',
-        subtitle: 'Portraits and product sets',
+        subtitle: 'Five 15-minute session packages',
         icon: Icons.photo_camera_outlined,
         index: 1,
-        imageAsset: 'assets/images/studio_product.jpg',
+        imageAsset: 'assets/PICS/business/main.jpg',
       ),
       _BentoAction(
         title: 'Events',
-        subtitle: 'Weddings and celebrations',
+        subtitle: 'Events and outdoor photoshoots',
         icon: Icons.event_available_outlined,
         index: 2,
-        imageAsset: 'assets/images/event_wedding.jpg',
+        imageAsset: 'assets/PICS/events/event.jpg',
       ),
       _BentoAction(
-        title: 'Coffee Shop',
-        subtitle: 'Drinks and pastries',
+        title: 'Café',
+        subtitle: '14 drinks in four categories',
         icon: Icons.local_cafe_outlined,
         index: 3,
-        imageAsset: 'assets/images/cafe_interior.jpg',
+        imageAsset: 'assets/PICS/business/Store.jpg',
       ),
       _BentoAction(
         title: 'Profile',
-        subtitle: 'Hours and contact details',
+        subtitle: 'Address and social contacts',
         icon: Icons.contact_phone_outlined,
         index: 4,
-        imageAsset: 'assets/images/event_corporate.jpg',
+        imageAsset: 'assets/PICS/business/main.jpg',
       ),
     ];
 
@@ -345,12 +362,15 @@ class _ServiceBentoGrid extends StatelessWidget {
   }
 }
 
+/// Displays one image-backed shortcut for a CAV service.
 class _ServiceBentoTile extends StatelessWidget {
+  /// Creates a service tile from [service] and its tap callback.
   const _ServiceBentoTile({required this.service, required this.onTap});
 
   final _BentoAction service;
   final VoidCallback onTap;
 
+  /// Builds the service image, label, icon, and navigation affordance.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -401,9 +421,12 @@ class _ServiceBentoTile extends StatelessWidget {
   }
 }
 
+/// Displays the key service metrics with a compact responsive arrangement.
 class _MetricStrip extends StatelessWidget {
+  /// Creates the metric strip.
   const _MetricStrip();
 
+  /// Builds metrics in a column on narrow layouts and a row otherwise.
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -411,13 +434,13 @@ class _MetricStrip extends StatelessWidget {
         final compact = constraints.maxWidth < 360;
         final metrics = [
           const _MetricTile(
-            value: '10+',
-            label: 'Packages',
+            value: '5',
+            label: 'Studio packages',
             icon: Icons.auto_awesome_outlined,
           ),
           const _MetricTile(
-            value: '3',
-            label: 'Services',
+            value: '14',
+            label: 'Café drinks',
             icon: Icons.dashboard_customize_outlined,
           ),
         ];
@@ -442,7 +465,9 @@ class _MetricStrip extends StatelessWidget {
   }
 }
 
+/// Displays one numeric metric with its label and icon.
 class _MetricTile extends StatelessWidget {
+  /// Creates a metric tile from its [value], [label], and [icon].
   const _MetricTile({
     required this.value,
     required this.label,
@@ -453,6 +478,7 @@ class _MetricTile extends StatelessWidget {
   final String label;
   final IconData icon;
 
+  /// Builds the colored metric surface.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -485,7 +511,9 @@ class _MetricTile extends StatelessWidget {
   }
 }
 
+/// Displays an image-backed feature card that navigates on tap.
 class _FeatureBentoCard extends StatelessWidget {
+  /// Creates a feature card from its content and [onTap] callback.
   const _FeatureBentoCard({
     required this.title,
     required this.subtitle,
@@ -500,6 +528,7 @@ class _FeatureBentoCard extends StatelessWidget {
   final String imageAsset;
   final VoidCallback onTap;
 
+  /// Builds the feature copy beside its supporting image.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -551,7 +580,9 @@ class _FeatureBentoCard extends StatelessWidget {
   }
 }
 
+/// Displays compact pill-shaped text over the hero image.
 class _Pill extends StatelessWidget {
+  /// Creates a pill using [color] and [foreground] for its palette.
   const _Pill({
     required this.label,
     required this.color,
@@ -562,6 +593,7 @@ class _Pill extends StatelessWidget {
   final Color color;
   final Color foreground;
 
+  /// Builds the rounded label container.
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -585,7 +617,9 @@ class _Pill extends StatelessWidget {
   }
 }
 
+/// Holds the display data and destination index for a service shortcut.
 class _BentoAction {
+  /// Creates immutable service shortcut data.
   const _BentoAction({
     required this.title,
     required this.subtitle,

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../app/design_tokens.dart';
 import '../models/cav_item.dart';
+import '../utils/form_validators.dart';
 import '../widgets/cav_app_header.dart';
 import '../widgets/cav_image.dart';
 import '../widgets/cav_surface.dart';
@@ -9,15 +11,19 @@ import '../widgets/responsive_content.dart';
 import '../widgets/section_header.dart';
 import 'summary_screen.dart';
 
+/// Collects customer details and a pickup slot for a coffee product.
 class OrderScreen extends StatefulWidget {
+  /// Creates an order form for [product].
   const OrderScreen({super.key, required this.product});
 
   final CoffeeProduct product;
 
+  /// Creates the state that owns form controllers and order selections.
   @override
   State<OrderScreen> createState() => _OrderScreenState();
 }
 
+/// Manages order input state, quantity bounds, validation, and navigation.
 class _OrderScreenState extends State<OrderScreen> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
@@ -28,6 +34,7 @@ class _OrderScreenState extends State<OrderScreen> {
   TimeOfDay _pickupTime = const TimeOfDay(hour: 10, minute: 30);
   int _quantity = 1;
 
+  /// Releases all text controllers owned by the order form.
   @override
   void dispose() {
     _nameController.dispose();
@@ -36,6 +43,7 @@ class _OrderScreenState extends State<OrderScreen> {
     super.dispose();
   }
 
+  /// Opens a date picker constrained to today through the next 30 days.
   Future<void> _pickDate() async {
     final now = DateTime.now();
     final picked = await showDatePicker(
@@ -48,6 +56,7 @@ class _OrderScreenState extends State<OrderScreen> {
     setState(() => _pickupDate = picked);
   }
 
+  /// Opens a time picker and stores the selected pickup time.
   Future<void> _pickTime() async {
     final picked = await showTimePicker(
       context: context,
@@ -57,7 +66,9 @@ class _OrderScreenState extends State<OrderScreen> {
     setState(() => _pickupTime = picked);
   }
 
+  /// Validates the form, creates a summary, and opens its confirmation screen.
   void _submit() {
+    // Do not construct or navigate to a summary until every required field passes.
     if (!_formKey.currentState!.validate()) return;
 
     final summary = OrderSummary(
@@ -78,12 +89,13 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
+  /// Builds the product preview, order fields, and submit action.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: CavAppHeader(
-        title: 'Sample Order',
+        title: 'Café Pickup Order',
         subtitle: widget.product.name,
       ),
       body: SafeArea(
@@ -108,7 +120,7 @@ class _OrderScreenState extends State<OrderScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Chip(label: Text('Cafe pickup')),
+                            const Chip(label: Text('Café pickup')),
                             const SizedBox(height: CavSpacing.sm),
                             Text(
                               widget.product.name,
@@ -191,20 +203,25 @@ class _OrderScreenState extends State<OrderScreen> {
                               labelText: 'Full name',
                               prefixIcon: Icon(Icons.person_outline),
                             ),
-                            validator: _required,
+                            validator: CavValidators.required,
                           ),
                         ),
                         SizedBox(
                           width: fieldWidth,
                           child: TextFormField(
                             controller: _contactController,
-                            keyboardType: TextInputType.phone,
+                            keyboardType: TextInputType.number,
+                            maxLength: 11,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(11),
+                            ],
                             textInputAction: TextInputAction.next,
                             decoration: const InputDecoration(
                               labelText: 'Contact number',
                               prefixIcon: Icon(Icons.phone_outlined),
                             ),
-                            validator: _required,
+                            validator: CavValidators.cellphone,
                           ),
                         ),
                         SizedBox(
@@ -261,22 +278,21 @@ class _OrderScreenState extends State<OrderScreen> {
     );
   }
 
-  String? _required(String? value) {
-    if ((value ?? '').trim().isEmpty) return 'This field is required.';
-    return null;
-  }
-
+  /// Formats [date] as a compact month/day/year string for display.
   String _formatDate(DateTime date) {
     return '${date.month}/${date.day}/${date.year}';
   }
 }
 
+/// Provides bounded increment and decrement controls for order quantity.
 class _StepperTile extends StatelessWidget {
+  /// Creates a quantity control for [value] using [onChanged] for updates.
   const _StepperTile({required this.value, required this.onChanged});
 
   final int value;
   final ValueChanged<int> onChanged;
 
+  /// Builds quantity controls and disables buttons at the allowed bounds.
   @override
   Widget build(BuildContext context) {
     return CavSurface(
@@ -314,7 +330,9 @@ class _StepperTile extends StatelessWidget {
   }
 }
 
+/// Renders a tappable date or time value using an input-like appearance.
 class _PickerTile extends StatelessWidget {
+  /// Creates a picker tile with its icon, label, displayed [value], and action.
   const _PickerTile({
     required this.icon,
     required this.label,
@@ -327,6 +345,7 @@ class _PickerTile extends StatelessWidget {
   final String value;
   final VoidCallback onTap;
 
+  /// Builds the input decorator and forwards taps to [onTap].
   @override
   Widget build(BuildContext context) {
     return InkWell(

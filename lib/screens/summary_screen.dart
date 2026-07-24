@@ -7,11 +7,14 @@ import '../widgets/cav_image.dart';
 import '../widgets/cav_surface.dart';
 import '../widgets/responsive_content.dart';
 
+/// Displays the submitted booking details and provides a return-home action.
 class BookingSummaryScreen extends StatelessWidget {
+  /// Creates a booking confirmation from [summary].
   const BookingSummaryScreen({super.key, required this.summary});
 
   final BookingSummary summary;
 
+  /// Builds the shared summary layout with booking-specific fields.
   @override
   Widget build(BuildContext context) {
     return _SummaryScaffold(
@@ -33,11 +36,14 @@ class BookingSummaryScreen extends StatelessWidget {
   }
 }
 
+/// Displays the submitted order details and provides a return-home action.
 class OrderSummaryScreen extends StatelessWidget {
+  /// Creates an order confirmation from [summary].
   const OrderSummaryScreen({super.key, required this.summary});
 
   final OrderSummary summary;
 
+  /// Builds the shared summary layout with order-specific fields.
   @override
   Widget build(BuildContext context) {
     return _SummaryScaffold(
@@ -65,7 +71,9 @@ class OrderSummaryScreen extends StatelessWidget {
   }
 }
 
+/// Provides the responsive image, detail grid, and return-home action.
 class _SummaryScaffold extends StatelessWidget {
+  /// Creates a summary layout using [title], [imageAsset], and detail [children].
   const _SummaryScaffold({
     required this.title,
     required this.imageAsset,
@@ -76,6 +84,7 @@ class _SummaryScaffold extends StatelessWidget {
   final String imageAsset;
   final List<Widget> children;
 
+  /// Builds the summary card in a stacked or two-column responsive layout.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,6 +105,7 @@ class _SummaryScaffold extends StatelessWidget {
                 color: CavColors.accentSoft,
                 child: LayoutBuilder(
                   builder: (context, constraints) {
+                    // Switch to a side-by-side summary once the card is wide enough.
                     final wide = constraints.maxWidth >= 720;
                     final detailGrid = LayoutBuilder(
                       builder: (context, gridConstraints) {
@@ -168,12 +178,15 @@ class _SummaryScaffold extends StatelessWidget {
   }
 }
 
+/// Displays one label/value pair in a summary detail grid.
 class _SummaryRow extends StatelessWidget {
+  /// Creates a summary row from its [label] and [value].
   const _SummaryRow({required this.label, required this.value});
 
   final String label;
   final String value;
 
+  /// Builds the label and truncated value text.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -201,6 +214,7 @@ class _SummaryRow extends StatelessWidget {
   }
 }
 
+/// Formats [date] as the month/day/year string used in summaries.
 String _formatDate(DateTime date) {
   return '${date.month}/${date.day}/${date.year}';
 }

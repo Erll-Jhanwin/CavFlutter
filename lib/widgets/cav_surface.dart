@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../app/design_tokens.dart';
 
+/// Provides the shared styled surface used for cards and interactive panels.
 class CavSurface extends StatelessWidget {
+  /// Creates a surface with optional tap behavior, shadow, color, and padding.
   const CavSurface({
     super.key,
     required this.child,
@@ -20,6 +22,7 @@ class CavSurface extends StatelessWidget {
   final VoidCallback? onTap;
   final bool shadow;
 
+  /// Builds the surface and wraps tappable content in an ink response.
   @override
   Widget build(BuildContext context) {
     return _PressableSurface(
@@ -50,19 +53,24 @@ class CavSurface extends StatelessWidget {
   }
 }
 
+/// Adds press feedback to a surface while leaving disabled content unchanged.
 class _PressableSurface extends StatefulWidget {
+  /// Creates a press-aware wrapper for [child].
   const _PressableSurface({required this.child, required this.enabled});
 
   final Widget child;
   final bool enabled;
 
+  /// Creates the mutable state that tracks pointer press feedback.
   @override
   State<_PressableSurface> createState() => _PressableSurfaceState();
 }
 
+/// Stores and renders the transient pressed state for [_PressableSurface].
 class _PressableSurfaceState extends State<_PressableSurface> {
   bool _pressed = false;
 
+  /// Builds the child with a small scale change while it is pressed.
   @override
   Widget build(BuildContext context) {
     if (!widget.enabled) return widget.child;

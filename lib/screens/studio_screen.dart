@@ -12,20 +12,25 @@ import '../widgets/responsive_content.dart';
 import '../widgets/section_header.dart';
 import 'booking_screen.dart';
 
+/// Shows the studio package catalog through the shared package-list screen.
 class StudioScreen extends StatelessWidget {
+  /// Creates the studio screen.
   const StudioScreen({super.key});
 
+  /// Builds the configured studio package catalog.
   @override
   Widget build(BuildContext context) {
     return PackageListScreen(
       title: 'Photo Studio',
-      subtitle: 'Portrait, graduation, and product packages ready to book.',
+      subtitle: 'Five 15-minute studio session packages at ₱1,000 each.',
       packages: CavRepository.studioPackages,
     );
   }
 }
 
+/// Displays a titled, reusable list of bookable [packages].
 class PackageListScreen extends StatelessWidget {
+  /// Creates a package list with its header copy and package data.
   const PackageListScreen({
     super.key,
     required this.title,
@@ -37,13 +42,17 @@ class PackageListScreen extends StatelessWidget {
   final String subtitle;
   final List<CavPackage> packages;
 
+  /// Builds the package introduction and adaptive package-card grid.
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CavAppHeader(
         title: title,
         subtitle: subtitle,
-        primaryLabel: 'Book',
+        primaryLabel: packages.isNotEmpty &&
+                packages.first.category == CavCategory.event
+            ? 'Book service'
+            : 'Book session',
         primaryIcon: Icons.calendar_month_outlined,
         onPrimaryPressed: packages.isEmpty
             ? null
@@ -67,12 +76,16 @@ class PackageListScreen extends StatelessWidget {
                 title: title,
                 subtitle: subtitle,
                 imageAsset: packages.first.imageAsset,
-                countLabel: '${packages.length} curated packages',
+                countLabel: packages.first.category == CavCategory.event
+                    ? 'Events + outdoor photoshoots'
+                    : '${packages.length} studio packages',
               ),
               const SizedBox(height: CavSpacing.xl),
-              const SectionHeader(
+              SectionHeader(
                 title: 'Available Packages',
-                subtitle: 'Choose the service that fits your schedule.',
+                subtitle: packages.first.category == CavCategory.event
+                    ? 'Request coverage for events or outdoor photoshoots.'
+                    : 'Choose a 15-minute studio session.',
               ),
               const SizedBox(height: CavSpacing.md),
               CavAdaptiveGrid(
@@ -100,7 +113,9 @@ class PackageListScreen extends StatelessWidget {
   }
 }
 
+/// Presents the package category introduction in a responsive panel.
 class _PackageIntro extends StatelessWidget {
+  /// Creates an introduction panel from its display text and image asset.
   const _PackageIntro({
     required this.title,
     required this.subtitle,
@@ -113,6 +128,7 @@ class _PackageIntro extends StatelessWidget {
   final String imageAsset;
   final String countLabel;
 
+  /// Builds the introduction copy beside or below its image.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
