@@ -139,16 +139,28 @@ class AboutScreen extends StatelessWidget {
                       icon: Icons.facebook,
                       title: 'Facebook',
                       value: contact.facebook,
+                      onTap: () => SocialMediaLinkLauncher.open(
+                        context,
+                        CavSocialLinks.all[0],
+                      ),
                     ),
                     _InfoTile(
                       icon: Icons.camera_alt_outlined,
                       title: 'Instagram',
                       value: contact.instagram,
+                      onTap: () => SocialMediaLinkLauncher.open(
+                        context,
+                        CavSocialLinks.all[1],
+                      ),
                     ),
                     _InfoTile(
                       icon: Icons.music_note_outlined,
                       title: 'TikTok',
                       value: contact.tiktok,
+                      onTap: () => SocialMediaLinkLauncher.open(
+                        context,
+                        CavSocialLinks.all[2],
+                      ),
                     ),
                   ];
 
@@ -170,8 +182,6 @@ class AboutScreen extends StatelessWidget {
               const CavSurface(
                 child: SocialMediaLinks(),
               ),
-              const SizedBox(height: CavSpacing.xl),
-              const CavAppFooter(),
             ],
           ),
         ),
@@ -187,17 +197,21 @@ class _InfoTile extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.value,
+    this.onTap,
   });
 
   final IconData icon;
   final String title;
   final String value;
+  final VoidCallback? onTap;
 
   /// Builds the icon, label, and supporting value row.
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return CavSurface(
+      onTap: onTap,
+      pressedOpacity: onTap == null ? 1 : 0.92,
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

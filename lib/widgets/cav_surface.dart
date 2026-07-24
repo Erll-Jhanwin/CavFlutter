@@ -12,6 +12,7 @@ class CavSurface extends StatelessWidget {
     this.color = CavColors.surface,
     this.radius = CavRadii.card,
     this.onTap,
+    this.pressedOpacity = 1,
     this.shadow = true,
   });
 
@@ -20,6 +21,7 @@ class CavSurface extends StatelessWidget {
   final Color color;
   final double radius;
   final VoidCallback? onTap;
+  final double pressedOpacity;
   final bool shadow;
 
   /// Builds the surface and wraps tappable content in an ink response.
@@ -27,6 +29,7 @@ class CavSurface extends StatelessWidget {
   Widget build(BuildContext context) {
     return _PressableSurface(
       enabled: onTap != null,
+      pressedOpacity: pressedOpacity,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 220),
         curve: Curves.easeOutCubic,
@@ -56,10 +59,15 @@ class CavSurface extends StatelessWidget {
 /// Adds press feedback to a surface while leaving disabled content unchanged.
 class _PressableSurface extends StatefulWidget {
   /// Creates a press-aware wrapper for [child].
-  const _PressableSurface({required this.child, required this.enabled});
+  const _PressableSurface({
+    required this.child,
+    required this.enabled,
+    required this.pressedOpacity,
+  });
 
   final Widget child;
   final bool enabled;
+  final double pressedOpacity;
 
   /// Creates the mutable state that tracks pointer press feedback.
   @override
@@ -83,7 +91,12 @@ class _PressableSurfaceState extends State<_PressableSurface> {
         duration: const Duration(milliseconds: 130),
         curve: Curves.easeOutCubic,
         scale: _pressed ? 0.985 : 1,
-        child: widget.child,
+        child: AnimatedOpacity(
+          duration: const Duration(milliseconds: 130),
+          curve: Curves.easeOutCubic,
+          opacity: _pressed ? widget.pressedOpacity : 1,
+          child: widget.child,
+        ),
       ),
     );
   }

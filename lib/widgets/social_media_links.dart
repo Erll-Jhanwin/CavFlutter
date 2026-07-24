@@ -47,6 +47,18 @@ class CavSocialLinks {
   ];
 }
 
+/// Attempts to open a social URL through the native app or default browser.
+Future<bool> openSocialLink(String url) async {
+  try {
+    return await launchUrl(
+      Uri.parse(url),
+      mode: LaunchMode.externalApplication,
+    );
+  } catch (_) {
+    return false;
+  }
+}
+
 /// Opens social URLs through the operating system and reports failures inline.
 class SocialMediaLinkLauncher {
   /// Prevents instantiation because launching is provided as a static helper.
@@ -54,16 +66,9 @@ class SocialMediaLinkLauncher {
 
   /// Opens [link] in the native app or the default browser when available.
   static Future<void> open(BuildContext context, SocialMediaLink link) async {
-    final uri = Uri.parse(link.url);
-    var opened = false;
-
-    try {
-      // External application mode lets Android/iOS route universal links to an
-      // installed social app, while desktop and web use the default browser.
-      opened = await launchUrl(uri, mode: LaunchMode.externalApplication);
-    } catch (_) {
-      opened = false;
-    }
+    // External application mode lets Android/iOS route universal links to an
+    // installed social app, while desktop and web use the default browser.
+    final opened = await openSocialLink(link.url);
 
     if (!opened && context.mounted) {
       ScaffoldMessenger.maybeOf(context)?.showSnackBar(
@@ -73,7 +78,7 @@ class SocialMediaLinkLauncher {
   }
 }
 
-/// Displays reusable, responsive social media buttons with hover and ripple feedback.
+/// Displays one responsive row of social media buttons with hover and ripple feedback.
 class SocialMediaLinks extends StatelessWidget {
   /// Creates a horizontal social-links row using [links] or the CAV defaults.
   const SocialMediaLinks({super.key, this.links = CavSocialLinks.all});
@@ -83,81 +88,29 @@ class SocialMediaLinks extends StatelessWidget {
   /// Builds platform buttons that remain compact on narrow screens.
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      alignment: WrapAlignment.start,
-      spacing: CavSpacing.sm,
-      runSpacing: CavSpacing.sm,
-      children: links
-          .map(
-            (link) => Tooltip(
-              message: 'Open ${link.label}',
-              child: IconButton(
-                onPressed: () => SocialMediaLinkLauncher.open(context, link),
-                icon: FaIcon(link.icon, size: 19),
-                style: IconButton.styleFrom(
-                  backgroundColor: link.color.withValues(alpha: 0.1),
-                  foregroundColor: link.color,
-                  hoverColor: link.color.withValues(alpha: 0.18),
-                  overlayColor: link.color.withValues(alpha: 0.22),
-                  fixedSize: const Size(44, 44),
-                  shape: const CircleBorder(),
-                ),
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (var index = 0; index < links.length; index++) ...[
+          if (index > 0) const SizedBox(width: CavSpacing.sm),
+          Tooltip(
+            message: 'Open ${links[index].label}',
+            child: IconButton(
+              onPressed: () =>
+                  SocialMediaLinkLauncher.open(context, links[index]),
+              icon: FaIcon(links[index].icon, size: 19),
+              style: IconButton.styleFrom(
+                backgroundColor: links[index].color.withValues(alpha: 0.1),
+                foregroundColor: links[index].color,
+                hoverColor: links[index].color.withValues(alpha: 0.18),
+                overlayColor: links[index].color.withValues(alpha: 0.22),
+                fixedSize: const Size(44, 44),
+                shape: const CircleBorder(),
               ),
             ),
-          )
-          .toList(),
-    );
-  }
-}
-
-/// Adds a consistent social-media footer to public-facing app pages.
-class CavAppFooter extends StatelessWidget {
-  /// Creates the shared footer with an optional supporting [message].
-  const CavAppFooter({
-    super.key,
-    this.message = 'Follow CAV for new studio and café updates.',
-  });
-
-  final String message;
-
-  /// Builds the footer copy and social links with responsive spacing.
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(CavSpacing.lg),
-      decoration: BoxDecoration(
-        color: CavColors.surfaceWarm,
-        borderRadius: BorderRadius.circular(CavRadii.card),
-      ),
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          final compact = constraints.maxWidth < 560;
-          final content = Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Stay connected with CAV',
-                style: theme.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w800,
-                ),
-              ),
-              const SizedBox(height: CavSpacing.xs),
-              Text(
-                message,
-                style: theme.textTheme.bodySmall?.copyWith(
-                  color: theme.colorScheme.onSurfaceVariant,
-                ),
-              ),
-              const SizedBox(height: CavSpacing.md),
-              const SocialMediaLinks(),
-            ],
-          );
-
-          return compact ? content : Row(children: [Expanded(child: content)]);
-        },
-      ),
+          ),
+        ],
+      ],
     );
   }
 }
