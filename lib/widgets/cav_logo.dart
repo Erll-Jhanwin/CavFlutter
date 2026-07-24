@@ -17,18 +17,29 @@ class CavLogo extends StatelessWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: CavColors.secondary,
         borderRadius: BorderRadius.circular(size >= 64 ? 24 : 16),
         boxShadow: CavShadows.soft(CavColors.secondary),
       ),
-      alignment: Alignment.center,
-      child: Text(
-        'CAV',
-        style: theme.textTheme.titleLarge?.copyWith(
-          color: Colors.white,
-          fontWeight: FontWeight.w800,
-          letterSpacing: 0,
-        ),
+      clipBehavior: Clip.antiAlias,
+      child: Image.asset(
+        'assets/PICS/icon/ICON.jpg',
+        fit: BoxFit.cover,
+        semanticLabel: 'CAV Photo Studio and Cafe logo',
+        errorBuilder: (context, error, stackTrace) {
+          return ColoredBox(
+            color: CavColors.secondary,
+            child: Center(
+              child: Text(
+                'CAV',
+                style: theme.textTheme.titleLarge?.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 0,
+                ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }

@@ -9,6 +9,7 @@ import '../widgets/cav_image.dart';
 import '../widgets/cav_surface.dart';
 import '../widgets/responsive_content.dart';
 import '../widgets/section_header.dart';
+import '../widgets/social_media_links.dart';
 import 'gallery_screen.dart';
 
 /// Builds the CAV landing page and routes requests to primary destinations.
@@ -91,6 +92,8 @@ class HomeScreen extends StatelessWidget {
                     .map((item) => GalleryTile(item: item))
                     .toList(),
               ),
+              const SizedBox(height: CavSpacing.xl),
+              const CavAppFooter(),
             ],
           ),
         ),

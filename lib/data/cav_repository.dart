@@ -101,7 +101,7 @@ class CavRepository {
       description: 'A classic café selection from the Classics menu.',
       tags: ['Classics'],
       icon: Icons.local_cafe_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/americano.jpg',
     ),
     CoffeeProduct(
       id: 'coffee-cappuccino',
@@ -111,7 +111,7 @@ class CavRepository {
       description: 'A classic café selection from the Classics menu.',
       tags: ['Classics'],
       icon: Icons.coffee_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/cappuccino.jpg',
     ),
     CoffeeProduct(
       id: 'coffee-spanish-latte',
@@ -121,7 +121,7 @@ class CavRepository {
       description: 'A classic café selection from the Classics menu.',
       tags: ['Classics'],
       icon: Icons.emoji_food_beverage_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/spanish_latte.jpg',
     ),
     CoffeeProduct(
       id: 'coffee-caramel-macchiato',
@@ -131,7 +131,7 @@ class CavRepository {
       description: 'A classic café selection from the Classics menu.',
       tags: ['Classics'],
       icon: Icons.local_cafe_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/caramel_macchiato.jpg',
     ),
     CoffeeProduct(
       id: 'coffee-chocnut-latte',
@@ -141,7 +141,7 @@ class CavRepository {
       description: 'A signature CAV café selection.',
       tags: ['Signatures'],
       icon: Icons.emoji_food_beverage_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/chocnut_latte.jpg',
     ),
     CoffeeProduct(
       id: 'coffee-triple-chocolate-latte',
@@ -151,7 +151,7 @@ class CavRepository {
       description: 'A signature CAV café selection.',
       tags: ['Signatures'],
       icon: Icons.emoji_food_beverage_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/triple_chocolate_latte.jpg',
     ),
     CoffeeProduct(
       id: 'matcha-classic',
@@ -161,7 +161,7 @@ class CavRepository {
       description: 'A matcha favorite from the CAV café menu.',
       tags: ['Matcha'],
       icon: Icons.local_cafe_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/classic_matcha.jpg',
     ),
     CoffeeProduct(
       id: 'matcha-dirty',
@@ -171,7 +171,7 @@ class CavRepository {
       description: 'A matcha favorite from the CAV café menu.',
       tags: ['Matcha'],
       icon: Icons.local_cafe_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/dirty_matcha.jpg',
     ),
     CoffeeProduct(
       id: 'matcha-chocnut',
@@ -181,7 +181,7 @@ class CavRepository {
       description: 'A matcha favorite from the CAV café menu.',
       tags: ['Matcha'],
       icon: Icons.local_cafe_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/chocnut_matcha.jpg',
     ),
     CoffeeProduct(
       id: 'matcha-strawberry',
@@ -191,7 +191,7 @@ class CavRepository {
       description: 'A matcha favorite from the CAV café menu.',
       tags: ['Matcha'],
       icon: Icons.local_cafe_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/strawberry_matcha.jpg',
     ),
     CoffeeProduct(
       id: 'soda-sparkling-mango',
@@ -201,7 +201,7 @@ class CavRepository {
       description: 'A sparkling fruit soda from the CAV café menu.',
       tags: ['Soda'],
       icon: Icons.local_drink_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/sparkling_mango.jpg',
     ),
     CoffeeProduct(
       id: 'soda-sparkling-strawberry',
@@ -211,7 +211,7 @@ class CavRepository {
       description: 'A sparkling fruit soda from the CAV café menu.',
       tags: ['Soda'],
       icon: Icons.local_drink_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/sparkling_strawberry.jpg',
     ),
     CoffeeProduct(
       id: 'soda-sparkling-blueberry',
@@ -221,7 +221,7 @@ class CavRepository {
       description: 'A sparkling fruit soda from the CAV café menu.',
       tags: ['Soda'],
       icon: Icons.local_drink_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/sparkling_blueberry.jpg',
     ),
     CoffeeProduct(
       id: 'soda-sparkling-green-apple',
@@ -231,7 +231,7 @@ class CavRepository {
       description: 'A sparkling fruit soda from the CAV café menu.',
       tags: ['Soda'],
       icon: Icons.local_drink_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/sparkling_green_apple.jpg',
     ),
   ];
 

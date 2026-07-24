@@ -7,6 +7,7 @@ import '../widgets/cav_image.dart';
 import '../widgets/cav_surface.dart';
 import '../widgets/responsive_content.dart';
 import '../widgets/section_header.dart';
+import '../widgets/social_media_links.dart';
 
 /// Presents CAV business details, address, email, and social contacts.
 class AboutScreen extends StatelessWidget {
@@ -160,6 +161,17 @@ class AboutScreen extends StatelessWidget {
                   );
                 },
               ),
+              const SizedBox(height: CavSpacing.xl),
+              const SectionHeader(
+                title: 'Contact & Social',
+                subtitle: 'Connect with CAV through the official platforms.',
+              ),
+              const SizedBox(height: CavSpacing.md),
+              const CavSurface(
+                child: SocialMediaLinks(),
+              ),
+              const SizedBox(height: CavSpacing.xl),
+              const CavAppFooter(),
             ],
           ),
         ),
