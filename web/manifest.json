@@ -1,11 +1,11 @@
 {
-    "name": "cav_flutter_app",
-    "short_name": "cav_flutter_app",
+    "name": "Frame & Brew",
+    "short_name": "Frame & Brew",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "Frame & Brew photo studio and café.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

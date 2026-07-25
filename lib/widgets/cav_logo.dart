@@ -24,13 +24,13 @@ class CavLogo extends StatelessWidget {
       child: Image.asset(
         'assets/PICS/icon/ICON.jpg',
         fit: BoxFit.cover,
-        semanticLabel: 'CAV Photo Studio and Cafe logo',
+        semanticLabel: 'Frame & Brew logo',
         errorBuilder: (context, error, stackTrace) {
           return ColoredBox(
             color: CavColors.secondary,
             child: Center(
               child: Text(
-                'CAV',
+                'F&B',
                 style: theme.textTheme.titleLarge?.copyWith(
                   color: Colors.white,
                   fontWeight: FontWeight.w800,

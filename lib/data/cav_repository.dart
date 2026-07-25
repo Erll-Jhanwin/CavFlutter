@@ -19,7 +19,7 @@ class CavRepository {
         '15 minutes',
       ],
       icon: Icons.photo_camera_outlined,
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/solo/botique self premium.jpg',
     ),
     CavPackage(
       id: 'studio-me-and-u',
@@ -88,7 +88,7 @@ class CavRepository {
         'Outdoor photoshoots',
       ],
       icon: Icons.camera_alt_outlined,
-      imageAsset: 'assets/PICS/events/standard event package.jpg',
+      imageAsset: 'assets/PICS/events/event (2).jpg',
     ),
   ];
 
@@ -268,7 +268,7 @@ class CavRepository {
       caption: 'Clean lighting and polished personal portraits.',
       icon: Icons.person_outline,
       color: Color(0xFF176B5B),
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/business/main.jpg',
     ),
     GalleryItem(
       title: 'Family Sessions',
@@ -289,7 +289,7 @@ class CavRepository {
       caption: 'Café drinks and a welcoming CAV storefront.',
       icon: Icons.local_cafe_outlined,
       color: Color(0xFF8B5E3C),
-      imageAsset: 'assets/PICS/business/Store.jpg',
+      imageAsset: 'assets/PICS/menu_drinks/chocnut_latte.jpg',
     ),
   ];
 }

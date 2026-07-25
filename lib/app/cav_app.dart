@@ -12,7 +12,7 @@ class CavApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'CAV Photo Studio & Cafe',
+      title: 'Frame & Brew',
       debugShowCheckedModeBanner: false,
       theme: CavTheme.light(),
       home: const SplashScreen(),

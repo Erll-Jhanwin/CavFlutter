@@ -55,6 +55,20 @@ class OrderSummaryScreen extends StatelessWidget {
         _SummaryRow(label: 'Contact', value: summary.contactNumber),
         _SummaryRow(label: 'Quantity', value: '${summary.quantity}'),
         _SummaryRow(
+          label: 'Add-ons',
+          value: summary.addOns.isEmpty
+              ? 'None'
+              : summary.addOns.map((addOn) => addOn.name).join(', '),
+        ),
+        _SummaryRow(
+          label: 'Subtotal',
+          value: _formatPesos(summary.subtotalInPesos),
+        ),
+        _SummaryRow(
+          label: 'Total to Pay',
+          value: _formatPesos(summary.totalInPesos),
+        ),
+        _SummaryRow(
           label: 'Pickup date',
           value: _formatDate(summary.pickupDate),
         ),
@@ -70,6 +84,8 @@ class OrderSummaryScreen extends StatelessWidget {
     );
   }
 }
+
+String _formatPesos(int amountInPesos) => '₱$amountInPesos';
 
 /// Provides the responsive image, detail grid, and return-home action.
 class _SummaryScaffold extends StatelessWidget {

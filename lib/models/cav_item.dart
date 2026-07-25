@@ -69,6 +69,28 @@ class CoffeeProduct {
   final List<String> tags;
   final IconData icon;
   final String imageAsset;
+
+  /// Returns the menu price as a whole number of Philippine pesos.
+  int get priceInPesos {
+    return int.parse(price.replaceAll(RegExp(r'[^0-9]'), ''));
+  }
+}
+
+/// Describes an optional add-on that can be included with a coffee order.
+class CoffeeAddOn {
+  /// Creates an immutable coffee add-on.
+  const CoffeeAddOn({
+    required this.id,
+    required this.name,
+    required this.priceInPesos,
+  });
+
+  final String id;
+  final String name;
+  final int priceInPesos;
+
+  /// Returns the add-on price formatted in Philippine pesos.
+  String get displayPrice => '₱$priceInPesos';
 }
 
 /// Stores the official CAV address and social contact details.
@@ -141,6 +163,9 @@ class OrderSummary {
     required this.pickupDate,
     required this.pickupTime,
     required this.quantity,
+    required this.addOns,
+    required this.subtotalInPesos,
+    required this.totalInPesos,
     required this.notes,
     required this.imageAsset,
   });
@@ -151,6 +176,9 @@ class OrderSummary {
   final DateTime pickupDate;
   final TimeOfDay pickupTime;
   final int quantity;
+  final List<CoffeeAddOn> addOns;
+  final int subtotalInPesos;
+  final int totalInPesos;
   final String notes;
   final String imageAsset;
 }

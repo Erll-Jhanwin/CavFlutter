@@ -81,7 +81,7 @@ class AboutScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               const CavImage(
-                                asset: 'assets/PICS/business/Store.jpg',
+                                asset: 'assets/PICS/business/main.jpg',
                                 aspectRatio: 16 / 10,
                               ),
                               Padding(
@@ -96,7 +96,7 @@ class AboutScreen extends StatelessWidget {
                               const SizedBox(
                                 width: 210,
                                 child: CavImage(
-                                  asset: 'assets/PICS/business/Store.jpg',
+                                  asset: 'assets/PICS/business/main.jpg',
                                   aspectRatio: 4 / 3,
                                 ),
                               ),

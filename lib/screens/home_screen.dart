@@ -23,7 +23,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CavAppHeader(
-        title: 'CAV',
+        title: 'Frame & Brew',
         subtitle: 'Photo studio, photo services, and café',
         showLogo: true,
         automaticallyImplyLeading: false,
@@ -127,7 +127,7 @@ class _BentoDashboard extends StatelessWidget {
                 title: 'Coffee Pickup',
                 subtitle: 'Browse 14 café drinks before you arrive.',
                 icon: Icons.local_cafe_outlined,
-                imageAsset: 'assets/PICS/business/Store.jpg',
+                imageAsset: 'assets/PICS/menu_drinks/cappuccino.jpg',
                 onTap: () => onNavigate(3),
               ),
             ],
@@ -154,7 +154,7 @@ class _BentoDashboard extends StatelessWidget {
                         title: 'Coffee Pickup',
                         subtitle: 'Browse 14 café drinks before you arrive.',
                         icon: Icons.local_cafe_outlined,
-                        imageAsset: 'assets/PICS/business/Store.jpg',
+                        imageAsset: 'assets/PICS/menu_drinks/cappuccino.jpg',
                         onTap: () => onNavigate(3),
                       ),
                     ],
@@ -321,28 +321,28 @@ class _ServiceBentoGrid extends StatelessWidget {
         subtitle: 'Five 15-minute session packages',
         icon: Icons.photo_camera_outlined,
         index: 1,
-        imageAsset: 'assets/PICS/business/main.jpg',
+        imageAsset: 'assets/PICS/solo/solo pic portrait.jpg',
       ),
       _BentoAction(
         title: 'Events',
         subtitle: 'Events and outdoor photoshoots',
         icon: Icons.event_available_outlined,
         index: 2,
-        imageAsset: 'assets/PICS/events/event.jpg',
+        imageAsset: 'assets/PICS/events/event (3).jpg',
       ),
       _BentoAction(
         title: 'Café',
         subtitle: '14 drinks in four categories',
         icon: Icons.local_cafe_outlined,
         index: 3,
-        imageAsset: 'assets/PICS/business/Store.jpg',
+        imageAsset: 'assets/PICS/menu_drinks/sparkling_mango.jpg',
       ),
       _BentoAction(
         title: 'Profile',
         subtitle: 'Address and social contacts',
         icon: Icons.contact_phone_outlined,
         index: 4,
-        imageAsset: 'assets/PICS/business/main.jpg',
+        imageAsset: 'assets/PICS/solo/solo pic portrait (2).jpg',
       ),
     ];
 

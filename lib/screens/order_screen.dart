@@ -11,6 +11,12 @@ import '../widgets/responsive_content.dart';
 import '../widgets/section_header.dart';
 import 'summary_screen.dart';
 
+const _coffeeAddOns = [
+  CoffeeAddOn(id: 'extra-shot', name: 'Extra espresso shot', priceInPesos: 25),
+  CoffeeAddOn(id: 'oat-milk', name: 'Oat milk', priceInPesos: 20),
+  CoffeeAddOn(id: 'whipped-cream', name: 'Whipped cream', priceInPesos: 15),
+];
+
 /// Collects customer details and a pickup slot for a coffee product.
 class OrderScreen extends StatefulWidget {
   /// Creates an order form for [product].
@@ -33,6 +39,7 @@ class _OrderScreenState extends State<OrderScreen> {
   late DateTime _pickupDate = DateTime.now();
   TimeOfDay _pickupTime = const TimeOfDay(hour: 10, minute: 30);
   int _quantity = 1;
+  final Set<String> _selectedAddOnIds = <String>{};
 
   /// Releases all text controllers owned by the order form.
   @override
@@ -71,6 +78,7 @@ class _OrderScreenState extends State<OrderScreen> {
     // Do not construct or navigate to a summary until every required field passes.
     if (!_formKey.currentState!.validate()) return;
 
+    final selectedAddOns = _selectedAddOns;
     final summary = OrderSummary(
       productName: widget.product.name,
       customerName: _nameController.text.trim(),
@@ -78,6 +86,9 @@ class _OrderScreenState extends State<OrderScreen> {
       pickupDate: _pickupDate,
       pickupTime: _pickupTime,
       quantity: _quantity,
+      addOns: selectedAddOns,
+      subtotalInPesos: _subtotalInPesos,
+      totalInPesos: _totalInPesos,
       notes: _notesController.text.trim(),
       imageAsset: widget.product.imageAsset,
     );
@@ -255,6 +266,38 @@ class _OrderScreenState extends State<OrderScreen> {
                   },
                 ),
                 const SizedBox(height: CavSpacing.md),
+                const SectionHeader(
+                  title: 'Add-ons',
+                  subtitle: 'Customize your drink before pickup.',
+                ),
+                const SizedBox(height: CavSpacing.sm),
+                ..._coffeeAddOns.map(
+                  (addOn) => CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    value: _selectedAddOnIds.contains(addOn.id),
+                    onChanged: (selected) {
+                      setState(() {
+                        if (selected ?? false) {
+                          _selectedAddOnIds.add(addOn.id);
+                        } else {
+                          _selectedAddOnIds.remove(addOn.id);
+                        }
+                      });
+                    },
+                    title: Text(addOn.name),
+                    subtitle: Text(addOn.displayPrice),
+                    secondary: const Icon(Icons.add_circle_outline),
+                  ),
+                ),
+                const SizedBox(height: CavSpacing.md),
+                _TotalToPay(
+                  quantity: _quantity,
+                  productPriceInPesos: widget.product.priceInPesos,
+                  addOns: _selectedAddOns,
+                  subtotalInPesos: _subtotalInPesos,
+                  totalInPesos: _totalInPesos,
+                ),
+                const SizedBox(height: CavSpacing.lg),
                 TextFormField(
                   controller: _notesController,
                   minLines: 3,
@@ -282,7 +325,107 @@ class _OrderScreenState extends State<OrderScreen> {
   String _formatDate(DateTime date) {
     return '${date.month}/${date.day}/${date.year}';
   }
+
+  List<CoffeeAddOn> get _selectedAddOns {
+    return _coffeeAddOns
+        .where((addOn) => _selectedAddOnIds.contains(addOn.id))
+        .toList(growable: false);
+  }
+
+  int get _subtotalInPesos {
+    final addOnsPerDrink = _selectedAddOns.fold<int>(
+      0,
+      (total, addOn) => total + addOn.priceInPesos,
+    );
+    return (widget.product.priceInPesos + addOnsPerDrink) * _quantity;
+  }
+
+  int get _totalInPesos => _subtotalInPesos;
 }
+
+/// Displays the current order breakdown and final amount to pay.
+class _TotalToPay extends StatelessWidget {
+  const _TotalToPay({
+    required this.quantity,
+    required this.productPriceInPesos,
+    required this.addOns,
+    required this.subtotalInPesos,
+    required this.totalInPesos,
+  });
+
+  final int quantity;
+  final int productPriceInPesos;
+  final List<CoffeeAddOn> addOns;
+  final int subtotalInPesos;
+  final int totalInPesos;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return CavSurface(
+      color: CavColors.accentSoft,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Total to Pay', style: theme.textTheme.titleLarge),
+          const SizedBox(height: CavSpacing.sm),
+          _PriceRow(
+            label: '$quantity × drink',
+            amountInPesos: productPriceInPesos * quantity,
+          ),
+          ...addOns.map(
+            (addOn) =>
+                _PriceRow(
+                  label: '$quantity × ${addOn.name}',
+                  amountInPesos: addOn.priceInPesos * quantity,
+                ),
+          ),
+          const Divider(height: CavSpacing.lg),
+          _PriceRow(label: 'Subtotal', amountInPesos: subtotalInPesos),
+          const SizedBox(height: CavSpacing.xs),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Final total',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+              Text(
+                _formatPesos(totalInPesos),
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  color: theme.colorScheme.primary,
+                  fontWeight: FontWeight.w900,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PriceRow extends StatelessWidget {
+  const _PriceRow({required this.label, required this.amountInPesos});
+
+  final String label;
+  final int amountInPesos;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(child: Text(label)),
+        Text(_formatPesos(amountInPesos)),
+      ],
+    );
+  }
+}
+
+String _formatPesos(int amountInPesos) => '₱$amountInPesos';
 
 /// Provides bounded increment and decrement controls for order quantity.
 class _StepperTile extends StatelessWidget {

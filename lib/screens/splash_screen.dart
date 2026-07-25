@@ -76,7 +76,7 @@ class _SplashScreenState extends State<SplashScreen> {
                             const CavLogo(size: 78),
                             const SizedBox(height: CavSpacing.lg),
                             Text(
-                              'CAV',
+                              'Frame & Brew',
                               textAlign: TextAlign.center,
                               style: theme.textTheme.headlineSmall,
                             ),
